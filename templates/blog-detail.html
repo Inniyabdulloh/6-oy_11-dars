@@ -1,0 +1,145 @@
+{% extends 'blogs.html' %}
+    <!-- ****** Header Area End ****** -->
+{% block content %}
+    <!-- ****** Breadcumb Area Start ****** -->
+    <div class="breadcumb-nav">
+        <div class="container">
+            <div class="row">
+                <div class="col-12">
+                    <nav aria-label="breadcrumb">
+                        <ol class="breadcrumb">
+                            <li class="breadcrumb-item"><a href="{% url 'index' %}"><i class="fa fa-home" aria-hidden="true"></i> Home</a></li>
+                            <li class="breadcrumb-item active" aria-current="page">Blog Detail</li>
+                        </ol>
+                    </nav>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- ****** Breadcumb Area End ****** -->
+
+    <!-- ****** Single Blog Area Start ****** -->
+    <section class="single_blog_area section_padding_80">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-12 col-lg-8">
+                    <div class="row no-gutters">
+
+                        <!-- Single Post Share Info -->
+
+
+                        <!-- Single Post -->
+                        <div class="col-10 col-sm-11">
+                            <div class="single-post">
+                                <!-- Post Thumb -->
+                                <div class="post-thumb">
+                                    <img class="blog-image" src="{{blog.image.url}}" alt="">
+                                </div>
+                                <!-- Post Content -->
+                                <div class="post-content">
+                                    <div class="post-meta d-flex">
+                                        <div class="post-author-date-area d-flex">
+                                            <!-- Post Author -->
+                                            <div class="post-author">
+                                                <a href="#">By {{ blog.author.username }}</a>
+                                            </div>
+                                            <!-- Post Date -->
+                                            <div class="post-date">
+                                                <a href="#">{{ blog.create_at | date:'d-M, y' }}</a>
+                                            </div>
+                                        </div>
+                                        <!-- Post Comment & Share Area -->
+
+                                    </div>
+                                    <a href="#">
+                                        <h2 class="post-headline">{{blog.title}}</h2>
+                                    </a>
+                                    <p>{{blog.body}}</p>
+                                </div>
+                            </div>
+
+
+                            <!-- Comment Area Start -->
+                            <div class="comment_area section_padding_50 clearfix">
+                                <h4 class="mb-30">{{comment_count}} Comments</h4>
+
+                                <ol>
+                                    <!-- Single Comment Area -->
+                                     {% for comment in comments %}
+                                    <li class="single_comment_area">
+                                        <div class="comment-wrapper d-flex">
+                                            <!-- Comment Meta -->
+                                            <div class="comment-author">
+                                                <img src="{{ comment.author.img.url }}" alt="">
+                                            </div>
+                                            <!-- Comment Content -->
+                                            <div class="comment-content">
+                                                <span class="comment-date text-muted">{{comment.created_at|date:'Y-m-d H:i' }}</span>
+                                                <h5>{{comment.author}}</h5>
+                                                <p>{{comment.body}}</p>
+                                            </div>
+                                        </div>
+                                    </li>
+                                    {% endfor %}
+                                </ol>
+                            </div>
+                            {% if user.is_authenticated %}
+                            <!-- Leave A Comment -->
+                            <div class="leave-comment-area section_padding_50 clearfix">
+                                <div class="comment-form">
+                                    <h4 class="mb-30">Leave A Comment</h4>
+                                    <!-- Comment Form -->
+                                    <form action="{% url 'comment_create' %}" method="post">
+                                        {% csrf_token %}
+                                        <div class="form-group">
+                                            <textarea class="form-control" name="message" id="message" cols="30" rows="10" placeholder="Message"></textarea>
+                                        </div>
+                                        <input type="hidden" name="blog_id", value="{{blog.id}}">
+                                        <button type="submit" class="btn contact-btn">Post Comment</button>
+                                    </form>
+                                </div>
+                            </div>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+
+                <!-- ****** Blog Sidebar ****** -->
+                <div class="col-12 col-sm-8 col-md-6 col-lg-4">
+                    <div class="blog-sidebar mt-5 mt-lg-0">
+                        <!-- Single Widget Area -->
+                        <div class="single-widget-area about-me-widget text-center">
+                            <div class="widget-title">
+                                <h6>About Me</h6>
+                            </div>
+                            <div class="about-me-widget-thumb">
+                                <img src="{{ blog.author.img.url }}" alt="">
+                            </div>
+                            <h4 class="font-shadow-into-light">{{blog.author.username}}</h4>
+                            <p></p>
+                        </div>
+
+                        <!-- Single Widget Area -->
+                        <div class="single-widget-area subscribe_widget text-center">
+                            <div class="widget-title">
+                                <h6>Subscribe &amp; Follow</h6>
+                            </div>
+                            <div class="subscribe-link">
+                                {% for social in socials %}
+                                <a href="{{ social.url }}"><i class="fa fa-{{ social.name }}" aria-hidden="true"></i></a>
+                                {% endfor %}
+                            </div>
+                        </div>
+
+                        <!-- Single Widget Area -->
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+
+{% endblock %}
+

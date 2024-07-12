@@ -1,0 +1,35 @@
+{% extends 'blogs.html' %}
+{% block content %}
+    <!-- ****** Archive Area Start ****** -->
+    <section class="archive-area section_padding_80">
+        <div class="container">
+            <div class="row">
+                <div class="col-3"></div>
+                <div class="col-12 col-md-7 item" style="height: 544px;">
+                    <a href="{% url 'blog_create' %}" class="btn btn-success">Create Blog</a>
+                    <br> <br>
+                    <table class="table">
+                        <thead>
+                          <tr>
+                            <th scope="col">id</th>
+                            <th scope="col">title</th>
+                            <th scope="col">update</th>
+                            <th scope="col">delete</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                            {% for blog in blogs %}
+                          <tr>
+                            <th scope="row">{{blog.id}}</th>
+                            <td>{{blog.title}}</td>
+                            <td><a href="{% url 'blog_update' blog.id %}">update</a></td>
+                            <td><a href="{% url 'blog_delete' blog.id %}">delete</a></td>
+                          </tr>
+                          {% endfor %}
+                        </tbody>
+                      </table>
+                </div>
+            </div>
+            </div>
+    </section>
+{% endblock %}
