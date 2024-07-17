@@ -20,8 +20,9 @@ def blog_create(request):
 
 
 @login_required
-@is_owner
+@is_owner(models.Blog)
 def blog_update(request, id):
+
     blog = models.Blog.objects.get(id=id)
     if request.method == 'POST':
         try:
